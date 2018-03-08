@@ -13,14 +13,14 @@ public class PickUp : MonoBehaviour {
 
     public GameObject obj;
     public FixedJoint fJoint;
-
+    public bool notInteracting;
 
     private Rigidbody rigidbody;
     bool isThrowing;
 	// Use this for initialization
 	void Start () {
 
-
+        notInteracting = true;
         trackedObj = GetComponent<SteamVR_TrackedObject>();
         fJoint = GetComponent<FixedJoint>();
 	}
@@ -41,19 +41,35 @@ public class PickUp : MonoBehaviour {
         {
             print("pressed trigger");
             PickUpObj();
+
+        }
+
+        if(controller.GetPressDown(triggerButton))
+        {
+            if (obj != null)
+            {
+                obj.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+            }
+
+           
         }
 
         if (controller.GetPressUp(triggerButton))
         {
             //Drop
             DropObj();
+            GetComponent<Collider>().isTrigger = false;
         }
 	}
 
 
      void FixedUpdate()
     {
-        
+        if (fJoint.connectedBody == null && notInteracting == true)
+        {
+            GetComponent<Collider>().isTrigger = false;
+        }
        if (isThrowing)
 
         {
@@ -83,7 +99,7 @@ public class PickUp : MonoBehaviour {
             }
 
             rigidbody.maxAngularVelocity = GetComponent<Rigidbody>().angularVelocity.magnitude;
-
+            GetComponent<Collider>().isTrigger = false;
             isThrowing = false;
         }
     }
@@ -94,6 +110,14 @@ public class PickUp : MonoBehaviour {
         {
             Debug.Log("trigger");
             obj = other.gameObject;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.tag == "canPickUp")
+        {
+            obj = null;
         }
     }
 
@@ -122,6 +146,7 @@ public class PickUp : MonoBehaviour {
             rigidbody = fJoint.connectedBody;
             fJoint.connectedBody = null;
             isThrowing = true;
+            
         }
     }
     
