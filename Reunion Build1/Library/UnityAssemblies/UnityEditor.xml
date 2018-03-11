@@ -18760,6 +18760,7 @@ GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
         <para>A light status bar, intended for use on dark backgrounds.</para>
       </summary>
     </member>
+<<<<<<< HEAD
     <member name="T:UnityEditor.iOSSystemGestureDeferMode">
       <summary>
         <para>Bit-mask used to control the deferring of system gestures on iOS.</para>
@@ -18795,6 +18796,8 @@ GUILayout.MaxHeight, GUILayout.ExpandWidth, GUILayout.ExpandHeight.</param>
         <para>Identifies top screen edge.</para>
       </summary>
     </member>
+=======
+>>>>>>> 0fce3916413b257b33d1af1d97cd89f2d119e79f
     <member name="T:UnityEditor.iOSTargetDevice">
       <summary>
         <para>Target iOS device.</para>
@@ -23215,6 +23218,14 @@ See Also: PhysicsVisualizationSettings.</para>
         <para>Defer system gestures until the second swipe on specific edges.</para>
       </summary>
     </member>
+<<<<<<< HEAD
+=======
+    <member name="P:UnityEditor.PlayerSettings.iOS.deferSystemGesturesMode">
+      <summary>
+        <para>Defer system gestures until the second swipe on specific edges.</para>
+      </summary>
+    </member>
+>>>>>>> 0fce3916413b257b33d1af1d97cd89f2d119e79f
     <member name="P:UnityEditor.PlayerSettings.iOS.disableDepthAndStencilBuffers">
       <summary>
         <para>Disable Depth and Stencil Buffers.</para>
@@ -27002,6 +27013,15 @@ See Also:</para>
         <para>The material property found, otherwise null.</para>
       </returns>
     </member>
+<<<<<<< HEAD
+=======
+    <member name="M:UnityEditor.ShaderGUI.OnClosed(UnityEngine.Material)">
+      <summary>
+        <para>This method is called when the ShaderGUI is being closed.</para>
+      </summary>
+      <param name="material"></param>
+    </member>
+>>>>>>> 0fce3916413b257b33d1af1d97cd89f2d119e79f
     <member name="M:UnityEditor.ShaderGUI.OnGUI(UnityEditor.MaterialEditor,UnityEditor.MaterialProperty[])">
       <summary>
         <para>To define a custom shader GUI use the methods of materialEditor to render controls for the properties array.</para>
