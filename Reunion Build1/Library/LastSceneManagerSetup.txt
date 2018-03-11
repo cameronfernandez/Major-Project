@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/corrdior.unity
+- path: Assets/LaurencesStuff.unity
   isLoaded: 1
   isActive: 1
