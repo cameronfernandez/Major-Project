@@ -33,8 +33,8 @@ public class AIB : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-          Invoke("moveBoi", 2);
-         // Invoke("DistCheck", 3);
+          Invoke("moveBoi", 4);
+          Invoke("DistCheck", 2);
 
         //Debug.Log("agent" + agent.transform.position);
        // Debug.Log("current:" + currtarget.position);
@@ -73,6 +73,7 @@ public class AIB : MonoBehaviour {
         if (distToPlayer <= 3)
         {
             Debug.Log("ATTAACKKK");
+            agent.SetDestination(player.transform.position);
         }
     }
 
