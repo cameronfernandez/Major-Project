@@ -6,36 +6,75 @@ public class PlayerBehaviour : MonoBehaviour {
 
 
     public float anxiety;
-    public float composure; 
+    public float composure;
+
+    public float anxietyIncrement;
+    public float composureDecrement;
+    public float personalSpace;
+
+    public float composureDrainInterval;
+    public float increaseAnxietyInterval;
 
 
+    float _originalAnxietyInt;
+    float _originalCompInt;
+    float _maxAnxiety = 100;
+    public GameObject enemy;
+    GameObject player;
+  
 	// Use this for initialization
 	void Start () {
-		
+        player = this.gameObject; 
+        anxiety = 0;
+        composure = 100;
+
+
+        _originalAnxietyInt = increaseAnxietyInterval;
+        _originalCompInt = composureDrainInterval;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	                
         
-        if (anxiety >= 100)
+        if (anxiety >= _maxAnxiety)
         {
-            //reduce composure
+            anxiety = _maxAnxiety;
+            composureDrainInterval -= Time.deltaTime;
+            if (composureDrainInterval <= 0)
+            {
+                composure -= composureDecrement;
+                composureDrainInterval = _originalCompInt;
+            }
+            
         }
 
         if (composure <= 0)
         {
-            // gameover
-
+            Debug.Log("game over");
         }
 
-        
+        float distToEnemy = Vector3.Distance(player.transform.position, enemy.transform.position);
 
+        if (distToEnemy < personalSpace)
+        {
+            increaseAnxietyInterval -= Time.deltaTime; 
+            if (increaseAnxietyInterval <= 0 )
+            {
+                IncreaseAnxiety();
+                increaseAnxietyInterval = _originalAnxietyInt;
+
+            }
+        }
 	}
 
     void IncreaseAnxiety()
     {
-        //increase anxiety according to proximity to enemy
+        anxiety += anxietyIncrement;
+    }
+
+    void CalmDown()
+    {
 
     }
 

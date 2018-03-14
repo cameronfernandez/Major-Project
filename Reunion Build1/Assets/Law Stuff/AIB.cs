@@ -19,7 +19,7 @@ public class AIB : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        //player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         //agent.autoBraking = false;
        
@@ -33,8 +33,18 @@ public class AIB : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-          Invoke("moveBoi", 4);
-          Invoke("DistCheck", 2);
+
+        distToPlayer = Vector3.Distance(this.gameObject.transform.position, player.transform.position);
+        if (distToPlayer <= 3)
+        {
+            Debug.Log("ATTAACKKK");
+            agent.SetDestination(player.transform.position);
+        }
+
+        else
+        {
+            Invoke("moveBoi", 4);
+        }
 
         //Debug.Log("agent" + agent.transform.position);
        // Debug.Log("current:" + currtarget.position);
