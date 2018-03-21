@@ -12,41 +12,58 @@ public class AIB : MonoBehaviour {
     int nodeNum = 0;
     int s = 5;
     GameObject pointToReach;
-    public GameObject player;
+    GameObject player;
 
     float distToPlayer;
 
-    // Use this for initialization
+    public enum State
+    {
+        Wander,
+        Chase,
+    }
+    public State states;
     void Start ()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
+        states = State.Wander;
         //agent.autoBraking = false;
        
        // pointToReach = GameObject.Find("EndPoint");
         currtarget = Nodes[0];
         AgentMoveToNode();
-
+        
 
     }
-	
-	// Update is called once per frame
+
+ 
+    // Update is called once per frame
+
+   
+
 	void Update ()
     {
-          Invoke("moveBoi", 4);
-          Invoke("DistCheck", 2);
+      switch (states)
+        {
+            case State.Wander:
+                Debug.Log("wander");
+                moveBoi();
+                break;
 
-        //Debug.Log("agent" + agent.transform.position);
-       // Debug.Log("current:" + currtarget.position);
-        
-        //agent.SetDestination(Nodes[nodeNum].transform.position);
-       // agent.SetDestination(currtarget.transform.position);
+            case State.Chase:
+                Debug.Log("chase");
+                DistCheck();
+                break;
+        }
     }
 
     public void moveBoi()
     {
+        AgentMoveToNode();
+
         if (agent.transform.position.x == currtarget.position.x && agent.transform.position.z == currtarget.position.z)
         {
+            
             if (nodeNum < Nodes.Length - 1)
             {
                 nodeNum++;
@@ -66,14 +83,25 @@ public class AIB : MonoBehaviour {
             }
 
         }
+        distToPlayer = Vector3.Distance(this.gameObject.transform.position, player.transform.position);
+        if (distToPlayer <= 6)
+        {
+            states = State.Chase;
+        }
     }
+
+
     public void DistCheck()
     {
         distToPlayer = Vector3.Distance(this.gameObject.transform.position, player.transform.position);
-        if (distToPlayer <= 3)
+        if (distToPlayer <= 6)
         {
-            Debug.Log("ATTAACKKK");
             agent.SetDestination(player.transform.position);
+        }
+        if (distToPlayer >= 6)
+        {
+            states = State.Wander;
+            
         }
     }
 
