@@ -24,7 +24,7 @@ public class AIB : MonoBehaviour {
     public State states;
     void Start ()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        //player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         states = State.Wander;
         //agent.autoBraking = false;
@@ -43,12 +43,27 @@ public class AIB : MonoBehaviour {
 
 	void Update ()
     {
+
       switch (states)
         {
             case State.Wander:
                 Debug.Log("wander");
                 moveBoi();
                 break;
+
+
+        distToPlayer = Vector3.Distance(this.gameObject.transform.position, player.transform.position);
+        if (distToPlayer <= 3)
+        {
+            Debug.Log("ATTAACKKK");
+            agent.SetDestination(player.transform.position);
+        }
+
+        else
+        {
+            Invoke("moveBoi", 4);
+        }
+
 
             case State.Chase:
                 Debug.Log("chase");
