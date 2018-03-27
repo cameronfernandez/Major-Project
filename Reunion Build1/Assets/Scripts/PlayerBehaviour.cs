@@ -15,6 +15,8 @@ public class PlayerBehaviour : MonoBehaviour {
     public float composureDrainInterval;
     public float increaseAnxietyInterval;
 
+    public bool isInToilet;
+
 
     float _originalAnxietyInt;
     float _originalCompInt;
@@ -27,6 +29,7 @@ public class PlayerBehaviour : MonoBehaviour {
         player = this.gameObject; 
         anxiety = 0;
         composure = 100;
+        isInToilet = false;
 
 
         _originalAnxietyInt = increaseAnxietyInterval;
@@ -66,6 +69,11 @@ public class PlayerBehaviour : MonoBehaviour {
 
             }
         }
+
+        if (isInToilet == true)
+        {
+            Debug.Log("in toilet");
+        }
 	}
 
     void IncreaseAnxiety()
@@ -73,9 +81,13 @@ public class PlayerBehaviour : MonoBehaviour {
         anxiety += anxietyIncrement;
     }
 
-    void CalmDown()
+    public void CalmDown()
     {
+        anxiety = 0;
+        composure = 0; 
 
     }
 
+
+    
 }
