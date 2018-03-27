@@ -12,9 +12,11 @@ public class Movement : MonoBehaviour {
     private SteamVR_TrackedObject trackedObj;
 
     private Vector2 axis = new Vector2(0, 3.07f);
+
+    float speed;
 	// Use this for initialization
 	void Start () {
-
+        speed = 1;
 
         trackedObj = GetComponent<SteamVR_TrackedObject>();
 	}
@@ -37,10 +39,16 @@ public class Movement : MonoBehaviour {
 
             if(rig!=null)
             {
-                rig.position += (transform.right * axis.x + transform.forward * axis.y) * Time.deltaTime;
+                rig.position += (transform.right * axis.x + transform.forward * axis.y) * Time.deltaTime * speed;
                 rig.position = new Vector3(rig.position.x, 0, rig.position.z);
 
             }
+        }
+
+        if (controller.GetPress(touchpad)) speed = 3;
+        else
+        {
+            speed = 1;
         }
 	}
 }
