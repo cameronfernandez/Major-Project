@@ -12,26 +12,32 @@ public class AIB : MonoBehaviour {
     int nodeNum = 0;
     int s = 5;
     GameObject pointToReach;
-    GameObject player;
+    public GameObject player;
+    public GameManager gameManager;
 
     float distToPlayer;
+    float _distractedTime = 4;
 
+    [SerializeField]
+    float _timeTillAbandon = 4;
     public enum State
     {
         Wander,
         Chase,
+        Distracted,
+        Idle,
+
     }
-    public State states;
+    public static State states;
     void Start ()
     {
         //player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
-        states = State.Wander;
+        states = State.Idle;
         //agent.autoBraking = false;
        
        // pointToReach = GameObject.Find("EndPoint");
         currtarget = Nodes[0];
-        AgentMoveToNode();
         
 
     }
@@ -46,29 +52,27 @@ public class AIB : MonoBehaviour {
 
       switch (states)
         {
+
+            case State.Idle:
+                Debug.Log("doing nothing");
+                DistCheck();
+                break;
+
             case State.Wander:
                 Debug.Log("wander");
                 moveBoi();
                 break;
 
-
-        distToPlayer = Vector3.Distance(this.gameObject.transform.position, player.transform.position);
-        if (distToPlayer <= 3)
-        {
-            Debug.Log("ATTAACKKK");
-            agent.SetDestination(player.transform.position);
-        }
-
-        else
-        {
-            Invoke("moveBoi", 4);
-        }
-
-
             case State.Chase:
                 Debug.Log("chase");
                 DistCheck();
                 break;
+
+            case State.Distracted:
+                IsDistracted();
+                Debug.Log("distracted");
+                break;
+
         }
     }
 
@@ -115,8 +119,23 @@ public class AIB : MonoBehaviour {
         }
         if (distToPlayer >= 6)
         {
-            states = State.Wander;
+
+            if (states == State.Idle) return;
+
+            else
+            {
+                states = State.Wander;
+            }
             
+        }
+
+        if (player.GetComponent<PlayerBehaviour>().isInToilet == true)
+        {
+            _timeTillAbandon -= Time.deltaTime;
+            if (_timeTillAbandon <= 0)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 
@@ -132,5 +151,15 @@ public class AIB : MonoBehaviour {
     public void NewPos(int nodePos)
     {
         currtarget = Nodes[nodePos];
+    }
+
+    public void IsDistracted()
+    {
+        _distractedTime -= Time.deltaTime;
+
+        if(_distractedTime <= 0)
+        {
+            states = State.Chase;
+        }
     }
 }

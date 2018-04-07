@@ -7,6 +7,10 @@ public class PickUp : MonoBehaviour {
 
     private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 
+    Valve.VR.EVRButtonId touchPad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
+
+    Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
+
     private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
 
     private SteamVR_TrackedObject trackedObj;
@@ -61,6 +65,16 @@ public class PickUp : MonoBehaviour {
             DropObj();
             GetComponent<Collider>().isTrigger = false;
         }
+
+        if (obj != null && obj.name.Contains("liquid courage"))
+        {
+            
+                transform.parent.GetComponent<PlayerBehaviour>().CalmDown();
+                Debug.Log("calm down");
+            
+        }
+
+      
 	}
 
 
@@ -102,6 +116,8 @@ public class PickUp : MonoBehaviour {
             GetComponent<Collider>().isTrigger = false;
             isThrowing = false;
         }
+
+       
     }
 
     void OnTriggerStay(Collider other)
