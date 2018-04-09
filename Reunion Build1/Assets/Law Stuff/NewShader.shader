@@ -4,7 +4,7 @@
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 	    _SecondTex ("Texture2", 2D) = "white"{}
-		_LerpValue ("Transition float", Range(0,1)) = 0.5
+		_LerpValue ("Transition float", Range(0,100)) = 50
 	}
 	SubShader
 	{
@@ -12,7 +12,7 @@
 		LOD 100
 
 		Pass
-		{
+		{   // that needs more vertexs ( if the pc isnt crap)
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
@@ -32,10 +32,12 @@
 				UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
 			};
-
+			//main texture
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
+			//crappy texture 
 			sampler2D _SecondTex;
+			// / by 100 for better results (already done below, but is a magic number)
 			float _LerpValue;
 			
 			v2f vert (appdata v)
@@ -50,7 +52,7 @@
 			fixed4 frag (v2f i) : SV_Target
 			{
 				// sample the texture
-				fixed4 col = lerp(tex2D(_MainTex, i.uv), tex2D(_SecondTex, i.uv),_LerpValue);
+				fixed4 col = lerp(tex2D(_MainTex, i.uv), tex2D(_SecondTex, i.uv),_LerpValue/100);
 				
 			    
 
