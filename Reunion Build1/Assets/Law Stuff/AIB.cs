@@ -33,7 +33,16 @@ public class AIB : MonoBehaviour {
     {
         //player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
-        states = State.Idle;
+        if (gameObject.tag == "FirstAI")
+        {
+            states = State.Idle;
+        }
+
+        if (gameObject.tag == "SecondAI")
+        {
+            Debug.Log("entered");
+            states = State.Wander;
+        }
         //agent.autoBraking = false;
        
        // pointToReach = GameObject.Find("EndPoint");
@@ -42,12 +51,21 @@ public class AIB : MonoBehaviour {
 
     }
 
- 
+
+    private void OnEnable()
+    {
+        if (gameObject.tag == "SecondAI")
+        {
+            Debug.Log("entered");
+            states = State.Wander;
+        }
+    }
+
     // Update is called once per frame
 
-   
 
-	void Update ()
+
+    void Update ()
     {
 
       switch (states)
@@ -134,7 +152,17 @@ public class AIB : MonoBehaviour {
             _timeTillAbandon -= Time.deltaTime;
             if (_timeTillAbandon <= 0)
             {
-                gameObject.SetActive(false);
+
+                if (gameObject.tag == "FirstAI")
+                {
+                    GameManager.gamePhase = GameManager.GamePhases.SEARCH_AUDITORIUM;
+                    gameObject.SetActive(false);
+                }
+
+                if (gameObject.tag == "SecondAI")
+                {
+                    GameManager.gamePhase = GameManager.GamePhases.BULLY;
+                }
             }
         }
     }
