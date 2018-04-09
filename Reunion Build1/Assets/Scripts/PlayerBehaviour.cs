@@ -16,7 +16,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public float increaseAnxietyInterval;
 
     public bool isInToilet;
-
+    public bool isInAuditorium;
 
     float _originalAnxietyInt;
     float _originalCompInt;
@@ -30,6 +30,7 @@ public class PlayerBehaviour : MonoBehaviour {
         anxiety = 0;
         composure = 100;
         isInToilet = false;
+        isInAuditorium = false;
 
 
         _originalAnxietyInt = increaseAnxietyInterval;
