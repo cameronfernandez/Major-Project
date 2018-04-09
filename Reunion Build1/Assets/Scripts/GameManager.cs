@@ -6,12 +6,16 @@ public class GameManager : MonoBehaviour {
 
 
     public enum GamePhases { SEARCH_CLASSROOM, SEARCH_AUDITORIUM, LEAVE_AUDITORIUM, BULLY, FINAL };
-    public GamePhases gamePhase;
+    public static GamePhases gamePhase;
+    public AIB FirstAI;
+    public AIB SecondAI;
     // Use this for initialization
     void Start() {
 
 
         gamePhase = GamePhases.SEARCH_CLASSROOM;
+        FirstAI.gameObject.SetActive(true);
+        SecondAI.gameObject.SetActive(false);
 
     }
 
@@ -23,6 +27,11 @@ public class GameManager : MonoBehaviour {
         {
             case GamePhases.SEARCH_CLASSROOM:
                 Debug.Log("search the classrooms for your friend");
+            break;
+
+            case GamePhases.SEARCH_AUDITORIUM:
+                SecondAI.gameObject.SetActive(true);
+                Debug.Log("make your way to the auditorium");
             break;
         }
 

@@ -20,10 +20,7 @@ public class Distract : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Floor")
         {
-          
-                AIB.states = AIB.State.Distracted;
-
-            
+            AIB.states = AIB.State.Distracted;
         }
     }
 }
