@@ -18,6 +18,8 @@ public class AIB : MonoBehaviour {
     float distToPlayer;
     float _distractedTime = 4;
 
+    bool playAnimation = false;
+
     [SerializeField]
     float _timeTillAbandon = 4;
     public enum State
@@ -134,10 +136,15 @@ public class AIB : MonoBehaviour {
         if (distToPlayer <= 6)
         {
             agent.SetDestination(player.transform.position);
+            if (playAnimation == false)
+            {
+                GetComponent<Animator>().SetTrigger("ChaseTrigger");
+                playAnimation = true;
+            }
         }
         if (distToPlayer >= 6)
         {
-
+            playAnimation = false;
             if (states == State.Idle) return;
 
             else
@@ -149,6 +156,10 @@ public class AIB : MonoBehaviour {
 
         if (player.GetComponent<PlayerBehaviour>().isInToilet == true)
         {
+
+            GetComponent<Animator>().SetTrigger("IdleTrigger");
+
+
             _timeTillAbandon -= Time.deltaTime;
             if (_timeTillAbandon <= 0)
             {
@@ -187,6 +198,7 @@ public class AIB : MonoBehaviour {
 
         if(_distractedTime <= 0)
         {
+            GetComponent<Animator>().SetTrigger("DistractedTrigger");
             states = State.Chase;
         }
     }
