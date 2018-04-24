@@ -33,23 +33,20 @@ public class AIB : MonoBehaviour {
     public static State states;
     void Start ()
     {
-        //player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         if (gameObject.tag == "FirstAI")
         {
             states = State.Idle;
+
         }
 
-        if (gameObject.tag == "SecondAI")
-        {
-            Debug.Log("entered");
-            states = State.Wander;
-        }
-        //agent.autoBraking = false;
-       
-       // pointToReach = GameObject.Find("EndPoint");
         currtarget = Nodes[0];
-        
+
+        //agent.autoBraking = false;
+
+        // pointToReach = GameObject.Find("EndPoint");
+
 
     }
 
@@ -59,6 +56,8 @@ public class AIB : MonoBehaviour {
         if (gameObject.tag == "SecondAI")
         {
             Debug.Log("entered");
+          GetComponent<Animator>().SetTrigger("WalkTrigger");
+
             states = State.Wander;
         }
     }
@@ -102,11 +101,10 @@ public class AIB : MonoBehaviour {
 
         if (agent.transform.position.x == currtarget.position.x && agent.transform.position.z == currtarget.position.z)
         {
-            
+            Debug.Log("same position");
             if (nodeNum < Nodes.Length - 1)
             {
                 nodeNum++;
-                agent.SetDestination(Nodes[nodeNum].transform.position);
                 Debug.Log("doing something");
                 
                 if (nodeNum == Nodes.Length - 1 )
@@ -119,6 +117,8 @@ public class AIB : MonoBehaviour {
                     
                 }
                 currtarget = Nodes[nodeNum];
+                agent.SetDestination(Nodes[nodeNum].transform.position);
+
             }
 
         }
@@ -180,7 +180,7 @@ public class AIB : MonoBehaviour {
 
     private void AgentMoveToNode()
     {
-      //  if (agent.transform.position.x == currtarget.position.x && agent.transform.position.z == currtarget.position.z )
+        //  if (agent.transform.position.x == currtarget.position.x && agent.transform.position.z == currtarget.position.z )
         if (agent.transform.position != currtarget.position)
         {
             agent.SetDestination(currtarget.position);
