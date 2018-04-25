@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Law Stuff/MainMenu.unity
+=======
+- path: Assets/corrdior.unity
+>>>>>>> a1adfb9edf29df69d4427c5125973e7f2bf27279
   isLoaded: 1
   isActive: 1
