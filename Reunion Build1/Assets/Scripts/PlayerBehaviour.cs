@@ -56,6 +56,7 @@ public class PlayerBehaviour : MonoBehaviour {
         if (composure <= 0)
         {
             Debug.Log("game over");
+            
         }
 
         float distToEnemy = Vector3.Distance(player.transform.position, enemy.transform.position);
