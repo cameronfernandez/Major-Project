@@ -28,12 +28,12 @@ public class Doorcontrol : MonoBehaviour {
         //check if open == tue
         if (Open)
         {
-            Quaternion DoorRotation = Quaternion.Euler(0, 0, DoorOpen);
+            Quaternion DoorRotation = Quaternion.Euler(0, DoorOpen, 0);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, DoorRotation, OpenCloseSpeed);
         }
         else
         {
-            Quaternion DoorRotation2 = Quaternion.Euler(0, 0, DoorClosed);
+            Quaternion DoorRotation2 = Quaternion.Euler(0, DoorClosed, 0);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, DoorRotation2, OpenCloseSpeed);
         }
     }
