@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
+
 
 public class PlayerBehaviour : MonoBehaviour {
 
@@ -23,6 +25,10 @@ public class PlayerBehaviour : MonoBehaviour {
     float _maxAnxiety = 100;
     public GameObject enemy;
     GameObject player;
+
+
+    public AudioSource heartBeat;
+    public AudioClip heatBeatClip;
   
 	// Use this for initialization
 	void Start () {
@@ -39,12 +45,28 @@ public class PlayerBehaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	                
-        
+
+        if (anxiety > 25 && anxiety < 50)
+        {
+            heartBeat.pitch = 1.5f;
+        }
+
+        if (anxiety > 50 && anxiety < 75)
+
+        {
+            heartBeat.pitch = 2.0f;
+        }
+
+        if (anxiety > 75)
+        {
+            heartBeat.pitch = 2.5f;
+        }
+
         if (anxiety >= _maxAnxiety)
         {
             anxiety = _maxAnxiety;
             composureDrainInterval -= Time.deltaTime;
+
             if (composureDrainInterval <= 0)
             {
                 composure -= composureDecrement;
