@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
     public static GamePhases gamePhase;
     public AIB FirstAI;
     public AIB SecondAI;
+    public Material mat;
+
     // Use this for initialization
     void Start() {
 
@@ -16,6 +18,12 @@ public class GameManager : MonoBehaviour {
         gamePhase = GamePhases.SEARCH_CLASSROOM;
         FirstAI.gameObject.SetActive(true);
         SecondAI.gameObject.SetActive(false);
+        Renderer[] renders = GameObject.FindObjectsOfType<Renderer>();
+
+        for (int i = 0; i < renders.Length; i++)
+        {
+            renders[i].material = mat;
+        }
 
     }
 
