@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class FireEscapeEvent : MonoBehaviour {
 
     public GameObject player;
