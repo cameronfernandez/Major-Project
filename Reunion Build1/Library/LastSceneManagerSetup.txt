@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Law Stuff/TestScene.unity
+- path: Assets/Law Stuff/MainMenu.unity
   isLoaded: 1
   isActive: 1
