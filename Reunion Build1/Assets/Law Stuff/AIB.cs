@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public class AIB : MonoBehaviour {
 
 
@@ -37,7 +38,8 @@ public class AIB : MonoBehaviour {
         agent = GetComponent<NavMeshAgent>();
         if (gameObject.tag == "FirstAI")
         {
-            states = State.Idle;
+            GetComponent<Animator>().SetTrigger("WalkTrigger");
+            states = State.Wander;
 
         }
 
@@ -139,10 +141,11 @@ public class AIB : MonoBehaviour {
             if (playAnimation == false)
             {
                 GetComponent<Animator>().SetTrigger("ChaseTrigger");
+                GetComponent<NavMeshAgent>().speed = 4;
                 playAnimation = true;
             }
         }
-        if (distToPlayer >= 6)
+        if (distToPlayer >= 10)
         {
             playAnimation = false;
             if (states == State.Idle) return;
