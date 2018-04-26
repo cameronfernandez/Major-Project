@@ -23,15 +23,23 @@ public class PlayerBehaviour : MonoBehaviour {
     float _originalAnxietyInt;
     float _originalCompInt;
     float _maxAnxiety = 100;
+
     public GameObject enemy;
+    public GameObject blackPlane;
     GameObject player;
 
+    public GameObject GameOverText;
 
     public AudioSource heartBeat;
     public AudioClip heatBeatClip;
-  
-	// Use this for initialization
-	void Start () {
+
+    bool gameOver = false;
+
+
+    Color blackPlaneColor;
+
+    // Use this for initialization
+    void Start () {
         player = this.gameObject; 
         anxiety = 0;
         composure = 100;
@@ -41,7 +49,9 @@ public class PlayerBehaviour : MonoBehaviour {
 
         _originalAnxietyInt = increaseAnxietyInterval;
         _originalCompInt = composureDrainInterval;
-	}
+        blackPlaneColor = blackPlane.GetComponent<Renderer>().material.color;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -74,11 +84,20 @@ public class PlayerBehaviour : MonoBehaviour {
             }
             
         }
-
+        
         if (composure <= 0)
         {
-            Debug.Log("game over");
-            
+            gameOver = true;
+            Debug.Log("Game Over");
+            if (gameOver == true)
+            {
+                blackPlane.GetComponent<Renderer>().material.color = new Color(blackPlaneColor.r, blackPlaneColor.g,
+                    blackPlaneColor.b, Mathf.Lerp(blackPlaneColor.a, 255, 0.01f + Time.deltaTime * 0.0004f));
+                if (Mathf.Approximately(blackPlaneColor.a, 255))
+                    Debug.Log("Ok");
+                GameOverText.SetActive(true);
+            }
+
         }
 
         float distToEnemy = Vector3.Distance(player.transform.position, enemy.transform.position);
@@ -112,6 +131,18 @@ public class PlayerBehaviour : MonoBehaviour {
 
     }
 
-
+    public void GameOver()
+    {
+        gameOver = true;
+        Debug.Log("Game Over");
+        if (gameOver == true)
+        {
+            blackPlane.GetComponent<Renderer>().material.color = new Color(blackPlaneColor.r, blackPlaneColor.g,
+                blackPlaneColor.b, Mathf.Lerp(blackPlaneColor.a, 255, 0.1f + Time.deltaTime * 3));
+            if (Mathf.Approximately(blackPlaneColor.a, 255))
+                Debug.Log("Ok");
+        }
+    }
     
 }
+

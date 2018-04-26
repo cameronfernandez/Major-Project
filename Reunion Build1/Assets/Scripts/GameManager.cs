@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour {
     public AIB FirstAI;
     public AIB SecondAI;
     public Material mat;
-
+    public Material flrMat;
+    public Material doorMat;
+    public Material deathMat;
     // Use this for initialization
     void Start() {
 
@@ -19,11 +21,28 @@ public class GameManager : MonoBehaviour {
         FirstAI.gameObject.SetActive(true);
         SecondAI.gameObject.SetActive(false);
         Renderer[] renders = GameObject.FindObjectsOfType<Renderer>();
+        GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
+        GameObject[] vendingMachines = GameObject.FindGameObjectsWithTag("VendingMachine");
+        GameObject deathScreen = GameObject.FindGameObjectWithTag("DeathScreen");
 
         for (int i = 0; i < renders.Length; i++)
         {
             renders[i].material = mat;
         }
+
+        for (int i = 0; i < vendingMachines.Length; i++)
+        {
+            vendingMachines[i].GetComponent<Renderer>().material = doorMat;
+        }
+
+        Debug.Log("hello" + deathScreen.name);
+
+        GameObject floor = GameObject.FindGameObjectWithTag("Floor");
+
+        floor.GetComponent<Renderer>().material = flrMat;
+        deathScreen.GetComponent<Renderer>().material = deathMat;
+        
+        
 
     }
 

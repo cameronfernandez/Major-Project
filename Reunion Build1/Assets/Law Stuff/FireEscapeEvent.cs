@@ -25,21 +25,16 @@ public class FireEscapeEvent : MonoBehaviour {
 		
 	}
 
-    private void OnTriggerEnter(Collider other)
+    public void TriggerAlarm()
     {
-        if (other.gameObject == player)
-        {
 
-            AKTUMALARMEH.Play();
-            Debug.Log("collided");
-            GameObject.FindGameObjectWithTag("enterDoor").GetComponent<Doorcontrol>().ChangeDoorState();
-            GameObject.FindGameObjectWithTag("exitDoor").GetComponent<Doorcontrol>().ChangeDoorState();
-            exitTEXT.gameObject.SetActive(false);
-            runTEXT.gameObject.SetActive(true);
-            overHereTEXT.gameObject.SetActive(true);
-            this.gameObject.SetActive(false);
-        }
+        AKTUMALARMEH.Play();
+        Debug.Log("collided");
+        GameObject.FindGameObjectWithTag("enterDoor").GetComponent<Doorcontrol>().ChangeDoorState();
+        GameObject.FindGameObjectWithTag("exitDoor").GetComponent<Doorcontrol>().ChangeDoorState();
+        exitTEXT.gameObject.SetActive(false);
+        runTEXT.gameObject.SetActive(true);
+        overHereTEXT.gameObject.SetActive(true);
+        this.gameObject.SetActive(false);
     }
-
-
 }
