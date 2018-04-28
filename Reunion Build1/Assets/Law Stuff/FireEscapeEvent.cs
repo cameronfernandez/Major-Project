@@ -12,6 +12,7 @@ public class FireEscapeEvent : MonoBehaviour
     public AudioSource AKTUMALARMEH;
     public AudioSource music, crowd;
     public Text runTEXT, exitTEXT, overHereTEXT;
+    public Material redMat; 
     GameObject[] bystanders;
 
 
@@ -41,11 +42,14 @@ public class FireEscapeEvent : MonoBehaviour
         runTEXT.gameObject.SetActive(true);
         overHereTEXT.gameObject.SetActive(true);
         this.gameObject.SetActive(false);
+        crowd.Stop();
+        music.Stop();
 
         foreach (GameObject bystander in bystanders)
         {
             bystander.transform.LookAt(player.transform);
             bystander.GetComponent<Animator>().SetTrigger("StareTrigger");
+           // bystander.GetComponentInChildren<Renderer>().material = redMat;
         }
     }
 }

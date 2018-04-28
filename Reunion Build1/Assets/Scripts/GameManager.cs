@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour {
         GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
         GameObject[] vendingMachines = GameObject.FindGameObjectsWithTag("VendingMachine");
         GameObject deathScreen = GameObject.FindGameObjectWithTag("DeathScreen");
+        GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
 
         for (int i = 0; i < renders.Length; i++)
         {
@@ -35,6 +36,10 @@ public class GameManager : MonoBehaviour {
             vendingMachines[i].GetComponent<Renderer>().material = doorMat;
         }
 
+        for (int i = 0; i < walls.Length; i++)
+        {
+            walls[i].AddComponent<BoxCollider>();
+        }
         Debug.Log("hello" + deathScreen.name);
 
         GameObject floor = GameObject.FindGameObjectWithTag("Floor");
