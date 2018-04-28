@@ -16,6 +16,9 @@ public class AIB : MonoBehaviour {
     public GameObject player;
     public GameManager gameManager;
 
+    public GameObject guide1;
+    public GameObject guide2;
+
     float distToPlayer;
     float _distractedTime = 4;
 
@@ -34,6 +37,8 @@ public class AIB : MonoBehaviour {
     public static State states;
     void Start ()
     {
+        guide1.SetActive(false);
+        guide2.SetActive(false);
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         if (gameObject.tag == "FirstAI")
@@ -128,6 +133,11 @@ public class AIB : MonoBehaviour {
         if (distToPlayer <= 6)
         {
             states = State.Chase;
+
+            if (gameObject.tag == "FirstAI")
+            {
+                guide1.SetActive(true);
+            }
         }
     }
 
@@ -141,13 +151,14 @@ public class AIB : MonoBehaviour {
             if (playAnimation == false)
             {
                 GetComponent<Animator>().SetTrigger("ChaseTrigger");
-                GetComponent<NavMeshAgent>().speed = 4;
+                GetComponent<NavMeshAgent>().speed = 3;
                 playAnimation = true;
             }
         }
         if (distToPlayer >= 10)
         {
             playAnimation = false;
+            guide1.SetActive(false);
             if (states == State.Idle) return;
 
             else
@@ -171,6 +182,8 @@ public class AIB : MonoBehaviour {
                 {
                     GameManager.gamePhase = GameManager.GamePhases.SEARCH_AUDITORIUM;
                     gameObject.SetActive(false);
+                    guide1.SetActive(false);
+                    guide2.SetActive(true);
                 }
 
                 if (gameObject.tag == "SecondAI")
