@@ -33,6 +33,7 @@ public class AIB : MonoBehaviour {
         Distracted,
         Idle,
 
+
     }
     public static State states;
     void Start ()
