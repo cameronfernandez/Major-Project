@@ -43,7 +43,7 @@ public class PickUp : MonoBehaviour {
 
         if (controller.GetPress(triggerButton))
         {
-            print("pressed trigger");
+            Debug.Log("pressed trigger");
             PickUpObj();
 
         }
@@ -82,7 +82,7 @@ public class PickUp : MonoBehaviour {
     {
         if (fJoint.connectedBody == null && notInteracting == true)
         {
-            GetComponent<Collider>().isTrigger = false;
+           // GetComponent<Collider>().isTrigger = false;
         }
        if (isThrowing)
 
@@ -127,8 +127,44 @@ public class PickUp : MonoBehaviour {
             Debug.Log("trigger");
             obj = other.gameObject;
         }
+
+        if (other.gameObject.tag == "door")
+        {
+            if (controller.GetPressDown(triggerButton))
+            {
+                other.transform.parent.GetComponent<Doorcontrol>().Open = true;
+            }
+        }
+
+        
     }
 
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Door")
+        {
+
+            Debug.Log("collided");
+            if (controller.GetPressDown(triggerButton))
+            {
+                if (other.transform.parent.GetComponent<Doorcontrol>().Open == false) other.transform.parent.GetComponent<Doorcontrol>().Open = true;
+                else
+                    other.transform.parent.GetComponent<Doorcontrol>().Open = false;
+
+            }
+        }
+
+        if (other.gameObject.tag == "FireExit")
+        {
+
+            Debug.Log("exit");
+            if (controller.GetPressDown(triggerButton))
+            {
+                other.gameObject.GetComponent<FireEscapeEvent>().TriggerAlarm();
+            }
+        }
+    }
     private void OnTriggerExit(Collider other)
     {
         if(other.gameObject.tag == "canPickUp")

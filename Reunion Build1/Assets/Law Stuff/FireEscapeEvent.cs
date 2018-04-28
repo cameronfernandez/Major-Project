@@ -5,41 +5,51 @@ using UnityEngine.UI;
 
 
 
-public class FireEscapeEvent : MonoBehaviour {
+public class FireEscapeEvent : MonoBehaviour
+{
 
     public GameObject player;
     public AudioSource AKTUMALARMEH;
+    public AudioSource music, crowd;
     public Text runTEXT, exitTEXT, overHereTEXT;
-    
+    public Material redMat; 
+    GameObject[] bystanders;
 
-	// Use this for initialization
-	void Start ()
+
+    // Use this for initialization
+    void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-       
+        bystanders = GameObject.FindGameObjectsWithTag("bystander");
+
+
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
 
-    private void OnTriggerEnter(Collider other)
+    // Update is called once per frame
+    void Update()
     {
-        if (other.gameObject == player)
+
+    }
+
+    public void TriggerAlarm()
+    {
+
+        AKTUMALARMEH.Play();
+        Debug.Log("collided");
+        GameObject.FindGameObjectWithTag("enterDoor").GetComponent<Doorcontrol>().ChangeDoorState();
+        GameObject.FindGameObjectWithTag("exitDoor").GetComponent<Doorcontrol>().ChangeDoorState();
+        exitTEXT.gameObject.SetActive(false);
+        runTEXT.gameObject.SetActive(true);
+        overHereTEXT.gameObject.SetActive(true);
+        this.gameObject.SetActive(false);
+        crowd.Stop();
+        music.Stop();
+
+        foreach (GameObject bystander in bystanders)
         {
-
-            AKTUMALARMEH.Play();
-            Debug.Log("collided");
-            GameObject.FindGameObjectWithTag("enterDoor").GetComponent<Doorcontrol>().ChangeDoorState();
-            GameObject.FindGameObjectWithTag("exitDoor").GetComponent<Doorcontrol>().ChangeDoorState();
-            exitTEXT.gameObject.SetActive(false);
-            runTEXT.gameObject.SetActive(true);
-            overHereTEXT.gameObject.SetActive(true);
-            this.gameObject.SetActive(false);
+            bystander.transform.LookAt(player.transform);
+            bystander.GetComponent<Animator>().SetTrigger("StareTrigger");
+           // bystander.GetComponentInChildren<Renderer>().material = redMat;
         }
     }
-
-
 }

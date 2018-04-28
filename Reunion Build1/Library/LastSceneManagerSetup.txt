@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Law Stuff/MainMenu.unity
+- path: Assets/corrdior.unity
   isLoaded: 1
   isActive: 1
