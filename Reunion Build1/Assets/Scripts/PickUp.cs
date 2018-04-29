@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class PickUp : MonoBehaviour {
 
 
-    private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
+     Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 
     Valve.VR.EVRButtonId touchPad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
 
@@ -21,12 +22,18 @@ public class PickUp : MonoBehaviour {
 
     private Rigidbody rigidbody;
     bool isThrowing;
+    PlayerBehaviour playerBehaviour;
+    GameManager gameManager;
+    public float restartTimer;
+    public float originalRestartTime;
 	// Use this for initialization
 	void Start () {
 
         notInteracting = true;
         trackedObj = GetComponent<SteamVR_TrackedObject>();
         fJoint = GetComponent<FixedJoint>();
+        playerBehaviour = GameObject.FindObjectOfType<PlayerBehaviour>();
+        gameManager = GameObject.FindObjectOfType<GameManager>();
 	}
 	
 	// Update is called once per frame
@@ -46,15 +53,37 @@ public class PickUp : MonoBehaviour {
             Debug.Log("pressed trigger");
             PickUpObj();
 
+            if (playerBehaviour.gameOver == true)
+            {
+                Debug.Log("restarting");
+                restartTimer -= Time.deltaTime;
+                if (restartTimer <= 0)
+                {
+                    SceneManager.LoadScene("corrdior");
+                }
+            }
+
+            if (gameManager.gameWon == true)
+            {
+                Debug.Log("restarting");
+                restartTimer -= Time.deltaTime;
+                if (restartTimer <= 0)
+                {
+                    SceneManager.LoadScene("MainMenu");
+                }
+            }
+
         }
 
         if(controller.GetPressDown(triggerButton))
         {
             if (obj != null)
             {
-                obj.transform.rotation = Quaternion.Euler(0, 0, 0);
+                obj.GetComponent<Collider>().enabled = false; 
 
             }
+
+            
 
            
         }
@@ -62,17 +91,11 @@ public class PickUp : MonoBehaviour {
         if (controller.GetPressUp(triggerButton))
         {
             //Drop
+
             DropObj();
-            GetComponent<Collider>().isTrigger = false;
+            //GetComponent<Collider>().isTrigger = false;
         }
 
-        if (obj != null && obj.name.Contains("liquid courage"))
-        {
-            
-                transform.parent.GetComponent<PlayerBehaviour>().CalmDown();
-                Debug.Log("calm down");
-            
-        }
 
       
 	}
@@ -113,7 +136,7 @@ public class PickUp : MonoBehaviour {
             }
 
             rigidbody.maxAngularVelocity = GetComponent<Rigidbody>().angularVelocity.magnitude;
-            GetComponent<Collider>().isTrigger = false;
+            //GetComponent<Collider>().isTrigger = false;
             isThrowing = false;
         }
 
@@ -135,12 +158,34 @@ public class PickUp : MonoBehaviour {
                 other.transform.parent.GetComponent<Doorcontrol>().Open = true;
             }
         }
+        if (other.gameObject.tag == "Door")
+        {
 
-        
+            Debug.Log("collided");
+            if (controller.GetPressDown(triggerButton))
+            {
+                if (other.transform.parent.GetComponent<Doorcontrol>().Open == false) other.transform.parent.GetComponent<Doorcontrol>().Open = true;
+                else
+                    other.transform.parent.GetComponent<Doorcontrol>().Open = false;
+
+            }
+        }
+
+        if (other.gameObject.tag == "FireExit")
+        {
+
+            Debug.Log("exit");
+            if (controller.GetPressDown(triggerButton))
+            {
+                other.gameObject.GetComponent<FireEscapeEvent>().TriggerAlarm();
+            }
+        }
+
+
     }
 
 
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Door")
         {

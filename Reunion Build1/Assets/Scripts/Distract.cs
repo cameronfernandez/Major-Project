@@ -16,11 +16,11 @@ public class Distract : MonoBehaviour {
 		
 	}
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Floor")
-        {
-            AIB.states = AIB.State.Distracted;
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "Floor")
+    //    {
+    //        AIB.states = AIB.State.Distracted;
+    //    }
+    //}
 }

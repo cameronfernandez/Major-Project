@@ -13,10 +13,20 @@ public class GameManager : MonoBehaviour {
     public Material flrMat;
     public Material doorMat;
     public Material deathMat;
+    public Material friendMat;
+    public Material consumableMat;
+    GameObject friend;
+    public GameObject WinCanvas;
+    GameObject player;
+    public CafeteriaDoor[] cafeteriaDoors;
+    public int enemiesKilled;
+    public bool gameOver;
+    public bool bossBeaten = false;
+    public bool gameWon;
     // Use this for initialization
     void Start() {
 
-
+        gameOver = false;
         gamePhase = GamePhases.SEARCH_CLASSROOM;
         FirstAI.gameObject.SetActive(true);
         SecondAI.gameObject.SetActive(false);
@@ -25,6 +35,11 @@ public class GameManager : MonoBehaviour {
         GameObject[] vendingMachines = GameObject.FindGameObjectsWithTag("VendingMachine");
         GameObject deathScreen = GameObject.FindGameObjectWithTag("DeathScreen");
         GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
+        GameObject[] consumables = GameObject.FindGameObjectsWithTag("canPickUp");
+        cafeteriaDoors = GameObject.FindObjectsOfType<CafeteriaDoor>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        friend = GameObject.FindGameObjectWithTag("Friend");
+        friend.SetActive(false);
 
         for (int i = 0; i < renders.Length; i++)
         {
@@ -39,6 +54,12 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < walls.Length; i++)
         {
             walls[i].AddComponent<BoxCollider>();
+        }
+
+        for (int i = 0; i < consumables.Length; i++)
+        {
+            consumables[i].GetComponent<Renderer>().material = consumableMat;
+
         }
         Debug.Log("hello" + deathScreen.name);
 
@@ -67,6 +88,22 @@ public class GameManager : MonoBehaviour {
             break;
         }
 
+
+        if (enemiesKilled >= 3)
+        {
+            friend.SetActive(true);
+            friend.GetComponentInChildren<Renderer>().material = friendMat;
+
+            foreach(CafeteriaDoor cafeteriaDoor in cafeteriaDoors)
+            {
+                cafeteriaDoor.Open = true;
+            }
+        }
+
+        if(friend.activeInHierarchy == true && Vector3.Distance(friend.transform.position, player.transform.position) <= 3)
+        {
+            WinCanvas.SetActive(true);
+        }
     }
 
     

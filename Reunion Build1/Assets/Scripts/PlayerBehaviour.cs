@@ -33,8 +33,9 @@ public class PlayerBehaviour : MonoBehaviour {
     public AudioSource heartBeat;
     public AudioClip heatBeatClip;
 
-    bool gameOver = false;
+    public bool gameOver = false;
 
+    GameManager gameManager;
 
     Color blackPlaneColor;
 
@@ -51,6 +52,7 @@ public class PlayerBehaviour : MonoBehaviour {
         _originalCompInt = composureDrainInterval;
         blackPlaneColor = blackPlane.GetComponent<Renderer>().material.color;
 
+        gameManager = GameObject.FindObjectOfType<GameManager>();
     }
 	
 	// Update is called once per frame
@@ -119,7 +121,7 @@ public class PlayerBehaviour : MonoBehaviour {
         }
 	}
 
-    void IncreaseAnxiety()
+    public void IncreaseAnxiety()
     {
         anxiety += anxietyIncrement;
     }
@@ -127,7 +129,7 @@ public class PlayerBehaviour : MonoBehaviour {
     public void CalmDown()
     {
         anxiety = 0;
-        composure = 0; 
+        composure = 100; 
 
     }
 

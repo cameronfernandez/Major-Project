@@ -25,7 +25,7 @@ public class BottlePour : MonoBehaviour
      
             Debug.Log("pouring");
             bottleAngle = Vector3.Angle(Vector3.up, transform.up);
-        if (bottleAngle < 90)
+        if (bottleAngle < 95)
         {
             transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
             liquid.Play();

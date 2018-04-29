@@ -14,23 +14,23 @@ public class objectPickupable : MonoBehaviour {
 		
 	}
 
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.tag == "controller")
-        {
-            other.gameObject.GetComponent<PickUp>().notInteracting = false;
-            Debug.Log("collision");
-            other.gameObject.GetComponent<Collider>().isTrigger = true;
-        }
-    }
+    //private void OnCollisionEnter(Collision other)
+    //{
+    //    if (other.gameObject.tag == "controller")
+    //    {
+    //        other.gameObject.GetComponent<PickUp>().notInteracting = false;
+    //        Debug.Log("collision");
+    //        other.gameObject.GetComponent<Collider>().isTrigger = true;
+    //    }
+    //}
 
-    private void OnTriggerExit(Collider other)
-    {
+    //private void OnTriggerExit(Collider other)
+    //{
 
-        if (other.CompareTag("controller"))
-        {
-            other.gameObject.GetComponent<PickUp>().notInteracting = true;
-        }
+    //    if (other.CompareTag("controller"))
+    //    {
+    //        other.gameObject.GetComponent<PickUp>().notInteracting = true;
+    //    }
 
-    }
+    //}
 }

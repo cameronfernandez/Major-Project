@@ -1,5 +1,6 @@
 ﻿//======= Copyright (c) Valve Corporation, All rights reserved. ===============
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public struct PointerEventArgs
@@ -25,12 +26,16 @@ public class SteamVR_LaserPointer : MonoBehaviour
     public Transform reference;
     public event PointerEventHandler PointerIn;
     public event PointerEventHandler PointerOut;
-
     Transform previousContact = null;
 
-	// Use this for initialization
-	void Start ()
+    public float initializeTimer = 3;
+    public float initializeTime = 3;
+
+
+    // Use this for initialization
+    void Start ()
     {
+
         holder = new GameObject();
         holder.transform.parent = this.transform;
         holder.transform.localPosition = Vector3.zero;
@@ -128,6 +133,8 @@ public class SteamVR_LaserPointer : MonoBehaviour
             dist = hit.distance;
         }
 
+      
+
         if (controller != null && controller.triggerPressed)
         {
             pointer.transform.localScale = new Vector3(thickness * 5f, thickness * 5f, dist);
@@ -137,5 +144,28 @@ public class SteamVR_LaserPointer : MonoBehaviour
             pointer.transform.localScale = new Vector3(thickness, thickness, dist);
         }
         pointer.transform.localPosition = new Vector3(0f, 0f, dist/2f);
+
+        if (hit.transform.gameObject.tag == "Play")
+        {
+            Debug.Log("Play");
+            if (SteamVR_Controller.Input((int)this.GetComponent<SteamVR_TrackedObject>().index).GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger))
+            {
+                SceneManager.LoadScene("corrdior");
+            }
+
+        }
+
+        if (hit.transform.gameObject.tag == "Exit")
+        {
+
+            Debug.Log("Play");
+            if (SteamVR_Controller.Input((int)this.GetComponent<SteamVR_TrackedObject>().index).GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger))
+            {
+                Application.Quit();
+            }
+
+        }
+
+      
     }
 }

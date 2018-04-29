@@ -13,7 +13,7 @@ public class AIB : MonoBehaviour {
     int nodeNum = 0;
     int s = 5;
     GameObject pointToReach;
-    public GameObject player;
+    public PlayerBehaviour player;
     public GameManager gameManager;
 
     public GameObject guide1;
@@ -40,7 +40,7 @@ public class AIB : MonoBehaviour {
     {
         guide1.SetActive(false);
         guide2.SetActive(false);
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindObjectOfType<PlayerBehaviour>();
         agent = GetComponent<NavMeshAgent>();
         if (gameObject.tag == "FirstAI")
         {
@@ -152,7 +152,7 @@ public class AIB : MonoBehaviour {
             if (playAnimation == false)
             {
                 GetComponent<Animator>().SetTrigger("ChaseTrigger");
-                GetComponent<NavMeshAgent>().speed = 3;
+                GetComponent<NavMeshAgent>().speed = 2;
                 playAnimation = true;
             }
         }

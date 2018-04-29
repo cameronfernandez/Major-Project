@@ -13,6 +13,7 @@ public class FireEscapeEvent : MonoBehaviour
     public AudioSource music, crowd;
     public Text runTEXT, exitTEXT, overHereTEXT;
     public Material redMat; 
+ 
     GameObject[] bystanders;
 
 
@@ -22,14 +23,11 @@ public class FireEscapeEvent : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         bystanders = GameObject.FindGameObjectsWithTag("bystander");
 
-
+       
     }
 
     // Update is called once per frame
-    void Update()
-    {
-
-    }
+  
 
     public void TriggerAlarm()
     {
@@ -44,12 +42,25 @@ public class FireEscapeEvent : MonoBehaviour
         this.gameObject.SetActive(false);
         crowd.Stop();
         music.Stop();
-
+        BystanderBehaviour.alarmTriggered = true;
         foreach (GameObject bystander in bystanders)
         {
             bystander.transform.LookAt(player.transform);
             bystander.GetComponent<Animator>().SetTrigger("StareTrigger");
-           // bystander.GetComponentInChildren<Renderer>().material = redMat;
+            Invoke("TriggerMovement", 5f);
+            // TriggerMovement();
+
+            // bystander.GetComponentInChildren<Renderer>().material = redMat;
         }
+
+       
+        
     }
+
+
+    public void TriggerMovement()
+    {
+     
+    }
+
 }
