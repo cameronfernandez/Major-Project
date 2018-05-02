@@ -74,7 +74,7 @@ public class AIB : MonoBehaviour {
 
 
 
-    void Update ()
+    void LateUpdate ()
     {
 
       switch (states)
@@ -100,6 +100,30 @@ public class AIB : MonoBehaviour {
                 Debug.Log("distracted");
                 break;
 
+        }
+        if (player.GetComponent<PlayerBehaviour>().isInToilet == true)
+        {
+
+            GetComponent<Animator>().SetTrigger("IdleTrigger");
+
+            Debug.Log("counting");
+            _timeTillAbandon -= Time.deltaTime;
+            if (_timeTillAbandon <= 0)
+            {
+
+                if (gameObject.tag == "FirstAI")
+                {
+                    GameManager.gamePhase = GameManager.GamePhases.SEARCH_AUDITORIUM;
+                    gameObject.SetActive(false);
+                    guide1.SetActive(false);
+                    guide2.SetActive(true);
+                }
+
+                if (gameObject.tag == "SecondAI")
+                {
+                    GameManager.gamePhase = GameManager.GamePhases.BULLY;
+                }
+            }
         }
     }
 
@@ -130,11 +154,11 @@ public class AIB : MonoBehaviour {
             }
 
         }
-        distToPlayer = Vector3.Distance(this.gameObject.transform.position, player.transform.position);
+        distToPlayer = Vector3.Distance(this.gameObject.transform.position, player.gameObject.transform.position);
         if (distToPlayer <= 6)
         {
             states = State.Chase;
-
+			agent.SetDestination(player.transform.position);
             if (gameObject.tag == "FirstAI")
             {
                 guide1.SetActive(true);
@@ -145,54 +169,61 @@ public class AIB : MonoBehaviour {
 
     public void DistCheck()
     {
-        distToPlayer = Vector3.Distance(this.gameObject.transform.position, player.transform.position);
-        if (distToPlayer <= 6)
-        {
+        //Debug.Log("DISTCHECK");
+
+
+        //if (distToPlayer <= 6)
+        //{
+        //    Debug.Log("enter");
             agent.SetDestination(player.transform.position);
-            if (playAnimation == false)
-            {
-                GetComponent<Animator>().SetTrigger("ChaseTrigger");
-                GetComponent<NavMeshAgent>().speed = 2;
-                playAnimation = true;
-            }
-        }
+            //if (playAnimation == false)
+           // {
+                Debug.Log("should chase");
+        agent.GetComponent<NavMeshAgent>().speed = 3.5f;
+
+        GetComponent<Animator>().SetTrigger("ChaseTrigger");
+              //  playAnimation = true;
+           // }
+        //}
+		distToPlayer = Vector3.Distance(this.gameObject.transform.position, player.gameObject.transform.position);
+
         if (distToPlayer >= 10)
         {
             playAnimation = false;
             guide1.SetActive(false);
             if (states == State.Idle) return;
 
-            else
-            {
+            //else
+           // {
                 states = State.Wander;
-            }
+            //}
             
         }
 
-        if (player.GetComponent<PlayerBehaviour>().isInToilet == true)
-        {
+        //if (player.GetComponent<PlayerBehaviour>().isInToilet == true)
+        //{
 
-            GetComponent<Animator>().SetTrigger("IdleTrigger");
+        //    GetComponent<Animator>().SetTrigger("IdleTrigger");
 
+        //    Debug.Log("counting");
+        //    _timeTillAbandon -= Time.deltaTime;
+        //    if (_timeTillAbandon <= 0)
+        //    {
 
-            _timeTillAbandon -= Time.deltaTime;
-            if (_timeTillAbandon <= 0)
-            {
+        //        if (gameObject.tag == "FirstAI")
+        //        {
+        //            GameManager.gamePhase = GameManager.GamePhases.SEARCH_AUDITORIUM;
+        //            gameObject.SetActive(false);
+        //            guide1.SetActive(false);
+        //            guide2.SetActive(true);
+        //        }
 
-                if (gameObject.tag == "FirstAI")
-                {
-                    GameManager.gamePhase = GameManager.GamePhases.SEARCH_AUDITORIUM;
-                    gameObject.SetActive(false);
-                    guide1.SetActive(false);
-                    guide2.SetActive(true);
-                }
-
-                if (gameObject.tag == "SecondAI")
-                {
-                    GameManager.gamePhase = GameManager.GamePhases.BULLY;
-                }
-            }
-        }
+        //        if (gameObject.tag == "SecondAI")
+        //        {
+        //            GameManager.gamePhase = GameManager.GamePhases.BULLY;
+        //        }
+        //    }
+        //}
     }
 
     private void AgentMoveToNode()

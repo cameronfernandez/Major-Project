@@ -20,7 +20,7 @@ public class FireEscapeEvent : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        
         bystanders = GameObject.FindGameObjectsWithTag("bystander");
 
        
@@ -43,6 +43,7 @@ public class FireEscapeEvent : MonoBehaviour
         crowd.Stop();
         music.Stop();
         BystanderBehaviour.alarmTriggered = true;
+        player.GetComponent<PlayerBehaviour>().anxiety = 100;
         foreach (GameObject bystander in bystanders)
         {
             bystander.transform.LookAt(player.transform);

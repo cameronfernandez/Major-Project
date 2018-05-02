@@ -18,7 +18,7 @@ public class ToiletCheck : MonoBehaviour {
 
     void OnTriggerStay(Collider col)
     {
-        if (col.gameObject.tag == "")
+        if (col.gameObject.tag == "Player")
         {
             playerBehaviour.isInToilet = true;
             Debug.Log("inside");

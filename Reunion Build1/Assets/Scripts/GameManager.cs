@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour {
         gameOver = false;
         gamePhase = GamePhases.SEARCH_CLASSROOM;
         FirstAI.gameObject.SetActive(true);
-        SecondAI.gameObject.SetActive(false);
+        //SecondAI.gameObject.SetActive(false);
         Renderer[] renders = GameObject.FindObjectsOfType<Renderer>();
         GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
         GameObject[] vendingMachines = GameObject.FindGameObjectsWithTag("VendingMachine");
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour {
 
         for (int i = 0; i < walls.Length; i++)
         {
-            walls[i].AddComponent<BoxCollider>();
+            walls[i].AddComponent<MeshCollider>();
         }
 
         for (int i = 0; i < consumables.Length; i++)
@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour {
             break;
 
             case GamePhases.SEARCH_AUDITORIUM:
-                SecondAI.gameObject.SetActive(true);
+                //SecondAI.gameObject.SetActive(true);
                 Debug.Log("make your way to the auditorium");
             break;
         }
@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour {
         {
             friend.SetActive(true);
             friend.GetComponentInChildren<Renderer>().material = friendMat;
+            
 
             foreach(CafeteriaDoor cafeteriaDoor in cafeteriaDoors)
             {
@@ -102,6 +103,7 @@ public class GameManager : MonoBehaviour {
 
         if(friend.activeInHierarchy == true && Vector3.Distance(friend.transform.position, player.transform.position) <= 3)
         {
+            gameWon = true;
             WinCanvas.SetActive(true);
         }
     }

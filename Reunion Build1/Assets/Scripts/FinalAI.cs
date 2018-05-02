@@ -6,7 +6,7 @@ using UnityEngine;
 public class FinalAI : MonoBehaviour {
 
 
-    GameObject player;
+    PlayerBehaviour player;
     public float attackingDistance;
     public float anxietyDistance;
     NavMeshAgent agent;
@@ -26,7 +26,7 @@ public class FinalAI : MonoBehaviour {
         agent = this.gameObject.GetComponent<NavMeshAgent>();
         this.gameObject.GetComponent<NavMeshAgent>().enabled = false;
         doors = GameObject.FindObjectsOfType<Doorcontrol>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindObjectOfType<PlayerBehaviour>();
         gameManager = GameObject.FindObjectOfType<GameManager>();
 	}
 	
@@ -101,7 +101,7 @@ public class FinalAI : MonoBehaviour {
 
     private void OnTriggerEnter(Collider collider)
     {
-        if(collider.gameObject.tag == "controller")
+        if(collider.gameObject.tag == "controller" || collider.gameObject.tag == "canPickUp")
         {
             isHit = true;
             Debug.Log("hit");

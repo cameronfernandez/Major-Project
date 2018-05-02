@@ -15,12 +15,15 @@ public class Movement : MonoBehaviour {
 
     public Transform head;
 
+    Rigidbody rb;
+
     float speed;
 	// Use this for initialization
 	void Start () {
         speed = 1;
 
         trackedObj = GetComponent<SteamVR_TrackedObject>();
+        rb = rig.GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
@@ -41,16 +44,30 @@ public class Movement : MonoBehaviour {
 
             if(rig!=null)
             {
-                rig.position += (head.right * axis.x + head.forward * axis.y) * Time.deltaTime * speed;
-                rig.position = new Vector3(rig.position.x, 0, rig.position.z);
+
+                Vector3 move = axis.x * head.right + axis.y * head.forward;
+
+                Vector3.ClampMagnitude(move, 4f);
+                rb.velocity = move * speed;
+                //move.Normalize();
+                //rb.AddForce(move * 4f);
+
+                
+
+               
+                //rig.position += (head.right * axis.x + head.forward * axis.y) * Time.deltaTime * speed;
+                //rig.position = new Vector3(rig.position.x, 0, rig.position.z);
 
             }
         }
-
+        else
+        {
+            rb.velocity = Vector3.zero;
+        }
         if (controller.GetPress(touchpad)) speed = 3;
         else
         {
-            speed = 1;
+            speed = 1.5f;
         }
 	}
 }

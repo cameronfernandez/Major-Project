@@ -33,6 +33,8 @@ public class PlayerBehaviour : MonoBehaviour {
     public AudioSource heartBeat;
     public AudioClip heatBeatClip;
 
+    public AudioSource fireAlarm;
+
     public bool gameOver = false;
 
     GameManager gameManager;
@@ -118,6 +120,7 @@ public class PlayerBehaviour : MonoBehaviour {
         if (isInToilet == true)
         {
             Debug.Log("in toilet");
+
         }
 	}
 
@@ -129,7 +132,9 @@ public class PlayerBehaviour : MonoBehaviour {
     public void CalmDown()
     {
         anxiety = 0;
-        composure = 100; 
+        composure = 100;
+        heartBeat.pitch = 1.0f;
+        
 
     }
 

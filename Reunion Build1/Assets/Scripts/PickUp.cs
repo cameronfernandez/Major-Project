@@ -45,11 +45,12 @@ public class PickUp : MonoBehaviour {
             return;
                 
         }
-
+    
         var device = SteamVR_Controller.Input((int)trackedObj.index);
 
         if (controller.GetPress(triggerButton))
         {
+            
             Debug.Log("pressed trigger");
             PickUpObj();
 
@@ -79,7 +80,7 @@ public class PickUp : MonoBehaviour {
         {
             if (obj != null)
             {
-                obj.GetComponent<Collider>().enabled = false; 
+         
 
             }
 
@@ -158,7 +159,7 @@ public class PickUp : MonoBehaviour {
                 other.transform.parent.GetComponent<Doorcontrol>().Open = true;
             }
         }
-        if (other.gameObject.tag == "Door")
+        if (other.gameObject.tag.Contains("Door"))
         {
 
             Debug.Log("collided");
